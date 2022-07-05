@@ -8,11 +8,11 @@ Este repositorio contiene los archivos relacionados a la Prueba 2 de la materia 
 3. [Tecnologías](#tecnologías)
 4. [Instalación](#instalación)
 5. [Fuentes de datos](#fuentes-de-datos)
-### Información General  <a name="general.info"></a>
+## Información General  <a name="general.info"></a>
 
 Este repositorio contiene el código fuente y las fuentes de datos de la Prueba 2 de la materia Introducción a Ciencia de Datos. Se toma como tema para esta prueba el aborto a nivel mundial, considerando los embarazos tanto desados como no deseados y las políticas del aborto actuales. 
 
-### Objetivos
+## Objetivos
 
 Se desea realizar una limpieza y visualización de los datos de un conjunto de fuentes relacionadas al aborto y a los embarazos tanto deseados como no deseados a nivel mundial, contrastando estos datos con las políticas mundiales del aborto. 
 ## Tecnologías
