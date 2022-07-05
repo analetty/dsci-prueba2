@@ -3,12 +3,12 @@
 Este repositorio contiene los archivos relacionados a la Prueba 2 de la materia de Introducción a Ciencia de Datos ABR2022.
 
 ## Contenido
-1. [Información General](#general-info)
-2. [Objetivos](#objs)
-3. [Tecnologías](#technologies)
-4. [Instalación](#installation)
-5. [Fuentes de datos](#data-srcs)
-### Información General
+1. [Información General](#información-general)
+2. [Objetivos](#objetivos)
+3. [Tecnologías](#tecnologías)
+4. [Instalación](#instalación)
+5. [Fuentes de datos](#fuentes-de-datos)
+### Información General  <a name="general.info"></a>
 
 Este repositorio contiene el código fuente y las fuentes de datos de la Prueba 2 de la materia Introducción a Ciencia de Datos. Se toma como tema para esta prueba el aborto a nivel mundial, considerando los embarazos tanto desados como no deseados y las políticas del aborto actuales. 
 
