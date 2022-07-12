@@ -12,7 +12,25 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Introducción
+
+## Objetivos
+
+## Fuentes de datos
+
+## Limpieza de datos
+
+## Base de datos a utilizar
+
+## Visualización de datos
+
+## Conclusiones
+Parte I
+La primera parte del informe debe ser una descripción básica de los datos que utilizan. Fuente, conceptos pertinentes, definiciones de indicadores, cantidad de observaciones, cantidad de variables, valores faltantes.
+
+*Si deben realizar algún cálculo adicional a los datos que importaron, deben describir el cálculo realizado y hacer referencia a la fuente en la que se basaron.
+
+Nota: el objetivo de esta parte es contextualizar al “lector” por lo que no deben extenderse mucho, pero sí es importante asegurarse de que se explica todo lo necesario para entender el resto del informe.
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
