@@ -13,19 +13,52 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Introducción
+Es conocido que el análisis de datos __ para la toma de decisiones, estas decisiones no se limitan al ámbito empresarial o __, sino también se podrían extender a áreas de la salud. 
 
-## Objetivos
+Un área de la salud que consideramos importante analizar es la salud sexual y reproductiva _ objetivo informar los esfuerzos hacia la equidad global en este tema. 
+ 
+Los conjuntos de datos que procesaremos están orientados a monitorear y medir las tendencias en embarazos no deseador y abortos.
+
+## Objetivo
+Realizar un análisis exploratorio de datos mediante el procesamiento y visualización de los mismos. 
 
 ## Fuentes de datos
+En esta ocasión estaremos usando 3 fuentes de datos diferentes que se relacionan entre sí, a continuación las listaremos y las describiremos brevemente:
+
+- Tasa de abortos
+Descripción
+Cantidad de observaciones
+Cantidad de variables
+Valores faltantes
+- Embarazos deseados vs. no deseados
+Descripción
+Cantidad de observaciones
+Cantidad de variables
+Valores faltantes
+- Regiones
+Descripción
+Cantidad de observaciones
+Cantidad de variables
+Valores faltantes
 
 ## Limpieza de datos
+Uno de los retos que encontramos al hacer la limpieza de los datos fue intentar agrupar los datos por regiones. 
 
 ## Base de datos a utilizar
 
 ## Visualización de datos
 
 ## Conclusiones
+Tanto el embarazo no planificado como el aborto son experiencias compartidas por las mujeres a nivel mundial, sin importar el área de donde provengan o habiten o la región. Esto es algo que ocurre y seguirá ocurriendo y es importante que se tenga en cuenta para la toma de decisiones a nivel de derechos reproductivos. Se necesitan medidas que aseguren las vidas de las mujeres que se someten a estos procedimientos. 
+
+https://www.guttmacher.org/es/fact-sheet/aborto-inducido-nivel-mundial
+
 Parte I
+Parte II 
+
+En el marco de la derogación??? de Roe v. Wade en los Estados Unidos, decidimos tomar este tema para estudiar el __ de las mujeres que se __ a abortos en el mundo. 
+Es algo que sucede y seguirá sucediendo. 
+
 La primera parte del informe debe ser una descripción básica de los datos que utilizan. Fuente, conceptos pertinentes, definiciones de indicadores, cantidad de observaciones, cantidad de variables, valores faltantes.
 
 *Si deben realizar algún cálculo adicional a los datos que importaron, deben describir el cálculo realizado y hacer referencia a la fuente en la que se basaron.
