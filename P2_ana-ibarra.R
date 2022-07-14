@@ -118,7 +118,7 @@ write.csv(regions,"regions.csv", row.names = FALSE)
 
 # Parte 3: Resumen y Graficos ------------------------------------------------------
 
-# Gráfica de embarazos %rural vs %urbana no quieren evadir el embarazo Países o regiones
+# Gráfica de barra % embarazos deseados por región en áreas rurales
 preg_data %>% 
   select(Country, region, perc_rural_w_nwap, perc_rural_w_wap) %>% 
   group_by(region) %>% 
@@ -130,6 +130,8 @@ preg_data %>%
   theme_minimal() +
   theme(legend.position = "none")
 
+# Gráfica de barra % embarazos no deseados por región en áreas rurales
+
 preg_data %>% 
   select(Country, region, perc_rural_w_nwap, perc_rural_w_wap) %>% 
   group_by(region) %>% 
@@ -140,7 +142,7 @@ preg_data %>%
        x = "Región", y ="Porcentaje de embarazos no deseados") +
   theme(legend.position = "none")
 
-# Gráfica de embarazos %rural vs %urbana no quieren evadir el embarazo Países o regiones
+# Gráfica de barra % embarazos deseados por región en áreas urbanas
 preg_data %>% 
   select(Country, region, perc_urban_w_nwap, perc_urban_w_wap) %>% 
   group_by(region) %>% 
@@ -151,6 +153,8 @@ preg_data %>%
        x = "Región", y ="Porcentaje de embarazos") +
   theme(legend.position = "none")
 
+# Gráfica de barra % embarazos no deseados por región en áreas urbanas
+
 preg_data %>% 
   select(Country, region, perc_urban_w_nwap, perc_urban_w_wap) %>% 
   group_by(region) %>% 
@@ -160,7 +164,8 @@ preg_data %>%
   labs(title="Porcentaje de embarazos no deseados por región en áreas urbanas", 
        x = "Región", y ="Porcentaje de embarazos") +
   theme(legend.position = "none")
-# Abortion rate por regiones y entre regiones ver algunos países
+
+# Gráfico de tasa de embarazos que terminan en aborto por región
 ab_data %>% 
   select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
   group_by(region) %>% 
@@ -171,6 +176,8 @@ ab_data %>%
        x = "Región", y ="Porcentaje de embarazos") +
   theme(legend.position = "none")
 
+# Gráfico de tasa de embarazos no deseados que terminan en aborto por región
+
 ab_data %>% 
   select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
   group_by(region) %>% 
@@ -180,51 +187,23 @@ ab_data %>%
   labs(title="Tasa embarazos no deseados que terminan en aborto por región", 
        x = "Región", y ="Porcentaje de embarazos") +
   theme(legend.position = "none")
-# El porcentaje no deseados es muy grande, hay pa'ises que no tienen regulaciones
 
-# Tasa de abortos no deseados
+# Comparación entre embarazos no deseados áreas urbanas vs rurales por región
 
-ss <- preg_data %>% 
+longer_urban_rural_nwap <- preg_data %>% 
   select(Country, region, perc_urban_w_nwap, perc_rural_w_nwap)  %>% 
   pivot_longer(cols = c("perc_urban_w_nwap", "perc_rural_w_nwap"),
                names_to = "series" ,
                values_to = "value")  
 
 
-p <- ss %>% 
+urban_rural_nwap <- longer_urban_rural_nwap %>% 
   mutate(region = reorder(region, value, FUN = median)) %>%
   ggplot() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   xlab("") +
   scale_y_continuous(trans = "log2")  
 
+urban_rural_nwap + geom_boxplot(aes(region, value, fill = factor(series)))
 
-
-# Evita el facet_grid y colorea por ano
-p + geom_boxplot(aes(region, value, fill = factor(series)))
-
-
-
-ss <- preg_data %>% 
-  select(Country, region, perc_poor_w_wap, perc_rich_w_wap)  %>% 
-  pivot_longer(cols = c("perc_poor_w_wap", "perc_rich_w_wap"),
-               names_to = "series" ,
-               values_to = "value")  
-
-
-p <- ss %>% 
-  mutate(region = reorder(region, value, FUN = median)) %>%
-  ggplot() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  xlab("") +
-  scale_y_continuous(trans = "log2")  
-
-
-
-# Evita el facet_grid y colorea por ano
-p + geom_boxplot(aes(region, value, fill = factor(series)))
-
-#create line plot for each column in data frame
-ggplot(ss, aes(region, data)) +
-  geom_line(aes(colour = series))
 

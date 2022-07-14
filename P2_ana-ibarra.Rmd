@@ -12,8 +12,15 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r, include=FALSE}
+library(tidyverse)
+library(readxl)
+library(ggplot2)
+library(ggthemes)
+```
+
 ## Introducción
-Es conocido que el análisis de datos __ para la toma de decisiones, estas decisiones no se limitan al ámbito empresarial o __, sino también se podrían extender a áreas de la salud. 
+Es conocido que el análisis de datos es una herramienta crucial para el proceso de toma de decisiones, estas decisiones no se limitan al ámbito empresarial o __, sino también se podrían extender a áreas de la salud. 
 
 Un área de la salud que consideramos importante analizar es la salud sexual y reproductiva _ objetivo informar los esfuerzos hacia la equidad global en este tema. 
  
@@ -25,28 +32,91 @@ Realizar un análisis exploratorio de datos mediante el procesamiento y visualiz
 ## Fuentes de datos
 En esta ocasión estaremos usando 3 fuentes de datos diferentes que se relacionan entre sí, a continuación las listaremos y las describiremos brevemente:
 
-- Tasa de abortos
-Descripción
-Cantidad de observaciones
-Cantidad de variables
-Valores faltantes
-- Embarazos deseados vs. no deseados
-Descripción
-Cantidad de observaciones
-Cantidad de variables
-Valores faltantes
-- Regiones
-Descripción
-Cantidad de observaciones
-Cantidad de variables
-Valores faltantes
+* Tasa de abortos
+  * Descripción
+  * Cantidad de observaciones
+  * Cantidad de variables
+  * Valores faltantes
+  
+
+```{r}
+getwd()
+
+dirty_abrate <- read_excel("datasets/ds-abrate.xlsx")
+```
+
+
+* Embarazos deseados vs. no deseados
+  * Descripción
+  * Cantidad de observaciones
+  * Cantidad de variables
+  * Valores faltantes
+
+```{r}
+dirty_wntdprg <- read_excel("datasets/ds-wntdprg.xlsx")
+```
+
+* Regiones
+  * Descripción
+  * Cantidad de observaciones
+  * Cantidad de variables
+  * Valores faltantes
+
+```{r}
+regions <- read.csv("datasets/all.csv")
+
+# Renombramos la columna de nombre a Country
+names(regions)[names(regions) == 'name'] <- 'Country'
+```
 
 ## Limpieza de datos
 Uno de los retos que encontramos al hacer la limpieza de los datos fue intentar agrupar los datos por regiones. 
 
 ## Base de datos a utilizar
 
+```{r}
+ab_data <- read.csv("datasets/ab_data.csv")
+preg_data <- read.csv("datasets/preg_data.csv")
+regions <- read.csv("datasets/regions.csv")
+
+```
+
 ## Visualización de datos
+
+```{r, echo=FALSE}
+preg_data %>% 
+  select(Country, region, perc_rural_w_nwap, perc_rural_w_wap) %>% 
+  group_by(region) %>% 
+  summarise(perc_rural_reg = mean(perc_rural_w_wap)) %>% 
+  ggplot( aes(x = region, y= perc_rural_reg,fill=region)) + 
+  geom_bar(stat='identity') +
+  labs(title="Porcentaje de embarazos deseados por región en áreas rurales", 
+       x = "Región", y ="Porcentaje de embarazos") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+```{r, echo=FALSE}
+
+ss <- preg_data %>% 
+  select(Country, region, perc_urban_w_nwap, perc_rural_w_nwap)  %>% 
+  pivot_longer(cols = c("perc_urban_w_nwap", "perc_rural_w_nwap"),
+               names_to = "series" ,
+               values_to = "value")  
+
+
+p <- ss %>% 
+  mutate(region = reorder(region, value, FUN = median)) %>%
+  ggplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  xlab("") +
+  scale_y_continuous(trans = "log2")  
+
+
+
+# Evita el facet_grid y colorea por ano
+p + geom_boxplot(aes(region, value, fill = factor(series)))
+```
 
 ## Conclusiones
 Tanto el embarazo no planificado como el aborto son experiencias compartidas por las mujeres a nivel mundial, sin importar el área de donde provengan o habiten o la región. Esto es algo que ocurre y seguirá ocurriendo y es importante que se tenga en cuenta para la toma de decisiones a nivel de derechos reproductivos. Se necesitan medidas que aseguren las vidas de las mujeres que se someten a estos procedimientos. 
