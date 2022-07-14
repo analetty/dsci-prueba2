@@ -10,11 +10,11 @@ Este repositorio contiene los archivos relacionados a la Prueba 2 de la materia 
 5. [Fuentes de datos](#fuentes-de-datos)
 ## Información General  <a name="general.info"></a>
 
-Este repositorio contiene el código fuente y las fuentes de datos de la Prueba 2 de la materia Introducción a Ciencia de Datos. Se toma como tema para esta prueba el aborto a nivel mundial, considerando los embarazos tanto desados como no deseados y las políticas del aborto actuales. 
+Este repositorio contiene el código fuente y las fuentes de datos de la Prueba 2 de la materia Introducción a Ciencia de Datos. Se toma como tema para esta prueba el aborto a nivel mundial, considerando los embarazos tanto desados como no deseados y contrastando estos valores entre regiones. 
 
 ## Objetivos
 
-Se desea realizar una limpieza y visualización de los datos de un conjunto de fuentes relacionadas al aborto y a los embarazos tanto deseados como no deseados a nivel mundial, contrastando estos datos con las políticas mundiales del aborto. 
+Se desea realizar una limpieza y visualización de los datos de un conjunto de fuentes relacionadas al aborto y a los embarazos tanto deseados como no deseados a nivel mundial, contrastando estos datos entre regiones. 
 ## Tecnologías
 
 Las tecnologías usadas durante el proyecto son:
@@ -35,8 +35,8 @@ Los datos usados para el desarrollo de este proyecto fueron extraídos de las si
 
 * [Tasa de Abortos a nivel mundial, 2015-2019](https://data.guttmacher.org/countries/table?country=AF+AL+DZ+AO+AR+AM+AU+AZ+BD+BB+BY+BE+BZ+BJ+BT+BO+BA+BW+BR+BG+BF+BI+CV+KH+CM+CA+CF+TD+CL+CN+CO+KM+CG+CR+CI+HR+CU+CZ+KP+CD+DK+DJ+DO+EC+EG+SV+GQ+ER+EE+SZ+ET+FJ+FI+FR+GF+GA+GM+GE+DE+GH+GR+GD+GP+GT+GN+GW+GY+HT+HN+HK+HU+IS+IN+ID+IR+IQ+IT+JM+JP+JO+KZ+KE+KI+KG+LA+LV+LB+LS+LR+LY+LT+MG+MW+MY+MV+ML+MQ+MR+MU+YT+MX+FM+MN+ME+MA+MZ+MM+NA+NP+NL+NZ+NI+NE+NG+MK+NO+PK+PA+PG+PY+PE+PH+PL+PT+PR+MD+KR+RE+RO+RU+RW+LC+VC+WS+ST+SN+RS+SL+SG+SK+SI+SB+SO+ZA+SS+ES+LK+PS+SD+SR+SE+CH+SY+TJ+TH+TL+TG+TO+TT+TN+TR+TM+UG+UA+GB+TZ+US+UY+UZ+VU+VE+VN+YE+ZM+ZW&dataset=data&topics=407+408+405+406)
 * [Porcentaje de embarazos deseados y no deseados a nivel mundial, 2019](https://data.guttmacher.org/countries/table?country=AF+AL+DZ+AO+AR+AM+AU+AZ+BD+BB+BY+BE+BZ+BJ+BT+BO+BA+BW+BR+BG+BF+BI+CV+KH+CM+CA+CF+TD+CL+CN+CO+KM+CG+CR+CI+HR+CU+CZ+KP+CD+DK+DJ+DO+EC+EG+SV+GQ+ER+EE+SZ+ET+FJ+FI+FR+GF+GA+GM+GE+DE+GH+GR+GD+GP+GT+GN+GW+GY+HT+HN+HK+HU+IS+IN+ID+IR+IQ+IT+JM+JP+JO+KZ+KE+KI+KG+LA+LV+LB+LS+LR+LY+LT+MG+MW+MY+MV+ML+MQ+MR+MU+YT+MX+FM+MN+ME+MA+MZ+MM+NA+NP+NL+NZ+NI+NE+NG+MK+NO+PK+PA+PG+PY+PE+PH+PL+PT+PR+MD+KR+RE+RO+RU+RW+LC+VC+WS+ST+SN+RS+SL+SG+SK+SI+SB+SO+ZA+SS+ES+LK+PS+SD+SR+SE+CH+SY+TJ+TH+TL+TG+TO+TT+TN+TR+TM+UG+UA+GB+TZ+US+UY+UZ+VU+VE+VN+YE+ZM+ZW&dataset=data&topics=300+302)
-* [Políticas actuales del aborto a nivel mundial](https://abortion-policies.srhr.org/documents/data/sources.xlsx)
 
 Pueden descargar los .xlsx generados directamente de las fuentes anteriores o del directorio datasets dentro de este repositorio. 
 
+Para más información sobre el tema pueden dirigirse a este [enlace](https://www.guttmacher.org/es/fact-sheet/aborto-inducido-nivel-mundial).
 

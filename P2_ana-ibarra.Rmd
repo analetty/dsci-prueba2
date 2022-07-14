@@ -20,57 +20,78 @@ library(ggthemes)
 ```
 
 ## Introducción
-Es conocido que el análisis de datos es una herramienta crucial para el proceso de toma de decisiones, estas decisiones no se limitan al ámbito empresarial o __, sino también se podrían extender a áreas de la salud. 
 
-Un área de la salud que consideramos importante analizar es la salud sexual y reproductiva _ objetivo informar los esfuerzos hacia la equidad global en este tema. 
- 
-Los conjuntos de datos que procesaremos están orientados a monitorear y medir las tendencias en embarazos no deseador y abortos.
+Es conocido que el análisis de datos es una herramienta crucial para el proceso de toma de decisiones. Estas decisiones no se limitan al ámbito empresarial o económico, sino también se extienden al campo de salud.
+
+Un área de la salud que consideramos importante analizar es la salud sexual y reproductiva, en vista del creciente interés debido a la reciente decisión de la Corte Suprema de los Estados Unidos (anulación de [Roe v. Wade](https://www.guttmacher.org/abortion-rights-supreme-court)).
+
+Debido a la importancia actual de la salud sexual y derechos reproductivos, consideramos que orientar este proyecto hacia este tema podría ilustrar la realidad que se vive a nivel regional en torno a la situación de embarazos deseados y no deseados, mujeres que desean evitar el embarazo, así como también al aborto.
 
 ## Objetivo
-Realizar un análisis exploratorio de datos mediante el procesamiento y visualización de los mismos. 
+
+Realizar un análisis exploratorio de datos mediante el procesamiento y visualización de los mismos, con el fin de determinar si el aborto y los embarazos no deseados son comunes a nivel continental y si existen diferencias en las tasas de mujeres que desean evitar el embarazo entre regiones urbanas y rurales.
 
 ## Fuentes de datos
+
 En esta ocasión estaremos usando 3 fuentes de datos diferentes que se relacionan entre sí, a continuación las listaremos y las describiremos brevemente:
 
-* Tasa de abortos
-  * Descripción
-  * Cantidad de observaciones
-  * Cantidad de variables
-  * Valores faltantes
-  
+-   [Tasa de abortos](https://data.guttmacher.org/countries/table?country=AF+AL+DZ+AO+AR+AM+AU+AZ+BD+BB+BY+BE+BZ+BJ+BT+BO+BA+BW+BR+BG+BF+BI+CV+KH+CM+CA+CF+TD+CL+CN+CO+KM+CG+CR+CI+HR+CU+CZ+KP+CD+DK+DJ+DO+EC+EG+SV+GQ+ER+EE+SZ+ET+FJ+FI+FR+GF+GA+GM+GE+DE+GH+GR+GD+GP+GT+GN+GW+GY+HT+HN+HK+HU+IS+IN+ID+IR+IQ+IT+JM+JP+JO+KZ+KE+KI+KG+LA+LV+LB+LS+LR+LY+LT+MG+MW+MY+MV+ML+MQ+MR+MU+YT+MX+FM+MN+ME+MA+MZ+MM+NA+NP+NL+NZ+NI+NE+NG+MK+NO+PK+PA+PG+PY+PE+PH+PL+PT+PR+MD+KR+RE+RO+RU+RW+LC+VC+WS+ST+SN+RS+SL+SG+SK+SI+SB+SO+ZA+SS+ES+LK+PS+SD+SR+SE+CH+SY+TJ+TH+TL+TG+TO+TT+TN+TR+TM+UG+UA+GB+TZ+US+UY+UZ+VU+VE+VN+YE+ZM+ZW&dataset=data&topics=407+408+405+406)
+    -   La base de datos tiene por país para el período 2015-2019 el porcentaje promedio de embarazos que terminan en aborto, tanto los deseados como no deseados; promedio anual de abortos en mujeres entre 15-49 años; promedio anual de aborto por cada 1000 mujeres entre 15-49 años.
+    -   Número de observaciones: 175
+    -   Cantidad de variables: 5
+    -   Valores faltantes: 25
 
 ```{r}
-getwd()
-
 dirty_abrate <- read_excel("datasets/ds-abrate.xlsx")
+
+summary(dirty_abrate)
+
+dirty_abrate[dirty_abrate == 'u'] <- NA
+
+# Subset de países con valores NA 
+na_ab_rate <- dirty_abrate[!complete.cases(dirty_abrate),] 
+na_ab_rate <- na_ab_rate[-(26:28),]
+
+na_ab_rate$Country
+
 ```
 
-
-* Embarazos deseados vs. no deseados
-  * Descripción
-  * Cantidad de observaciones
-  * Cantidad de variables
-  * Valores faltantes
+-   [Embarazos deseados vs. no deseados](https://data.guttmacher.org/countries/table?country=AF+AL+DZ+AO+AR+AM+AU+AZ+BD+BB+BY+BE+BZ+BJ+BT+BO+BA+BW+BR+BG+BF+BI+CV+KH+CM+CA+CF+TD+CL+CN+CO+KM+CG+CR+CI+HR+CU+CZ+KP+CD+DK+DJ+DO+EC+EG+SV+GQ+ER+EE+SZ+ET+FJ+FI+FR+GF+GA+GM+GE+DE+GH+GR+GD+GP+GT+GN+GW+GY+HT+HN+HK+HU+IS+IN+ID+IR+IQ+IT+JM+JP+JO+KZ+KE+KI+KG+LA+LV+LB+LS+LR+LY+LT+MG+MW+MY+MV+ML+MQ+MR+MU+YT+MX+FM+MN+ME+MA+MZ+MM+NA+NP+NL+NZ+NI+NE+NG+MK+NO+PK+PA+PG+PY+PE+PH+PL+PT+PR+MD+KR+RE+RO+RU+RW+LC+VC+WS+ST+SN+RS+SL+SG+SK+SI+SB+SO+ZA+SS+ES+LK+PS+SD+SR+SE+CH+SY+TJ+TH+TL+TG+TO+TT+TN+TR+TM+UG+UA+GB+TZ+US+UY+UZ+VU+VE+VN+YE+ZM+ZW&dataset=data&topics=300+302)
+    -   La base de datos tiene por país para 2019 diversas variables para la tasa de mujeres que desean o no evitar el embarazo de acuerdo al área, edad, percentil de ingresos y estado civil.
+    -   Cantidad de observaciones: 175
+    -   Cantidad de variables: 19
+    -   Valores faltantes: 43
 
 ```{r}
 dirty_wntdprg <- read_excel("datasets/ds-wntdprg.xlsx")
+
+summary(dirty_wntdprg)
+dirty_wntdprg[dirty_wntdprg == 'u'] <- NA
+
+# Subset de países con valores NA 
+na_wntd_prg <- dirty_wntdprg[!complete.cases(dirty_wntdprg),]
+na_wntd_prg <- na_wntd_prg[-(44:46),]
+
+na_wntd_prg$Country
 ```
 
-* Regiones
-  * Descripción
-  * Cantidad de observaciones
-  * Cantidad de variables
-  * Valores faltantes
+-   [Regiones](https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes/blob/master/all/all.csv)
+    -   La base de datos contiene información de los países de acuerdo a sus regiones, subregiones, código ISO 3166, código de país y de región.
+    -   Cantidad de observaciones: 249
+    -   Cantidad de variables: 11
+    -   Valores faltantes: 0
 
 ```{r}
 regions <- read.csv("datasets/all.csv")
 
-# Renombramos la columna de nombre a Country
-names(regions)[names(regions) == 'name'] <- 'Country'
+summary(regions)
 ```
 
 ## Limpieza de datos
-Uno de los retos que encontramos al hacer la limpieza de los datos fue intentar agrupar los datos por regiones. 
+
+Uno de los retos que encontramos al hacer la limpieza de los datos fue intentar agrupar los datos por regiones. Para ello fue necesario estandarizar los nombres de los países en todas las bases de datos para posteriormente unir las bases de datos de tasa de aborto y embarazos con la de regiones mediante la columna país.
+
+Adicionalmente, seleccionamos algunas de las variables de las bases de datos, ya que quisimos enfocar el estudio en las variables relacionadas a las áreas rurales y urbanas y percentiles de ingreso para embarazos y las tasas de aborto para embarazos no deseados.
 
 ## Base de datos a utilizar
 
@@ -83,72 +104,105 @@ regions <- read.csv("datasets/regions.csv")
 
 ## Visualización de datos
 
+A pesar de que los embarazos no deseados y el aborto tengan poca visibilidad en las sociedades, son un problema común y relevante a nivel mundial que ocurren independientemente de variables socioeconómicas y geográficas.
+
+Como se puede observar en el gráfico 1, la tasa de embarazos que terminan en aborto son mayores al 10% de la población femenina en todas las regiones continentales. Destacan los continentes americano y asiático debido a las elevadas tasas de más de 20%. Sin embargo, debe tomarse en cuenta factores que podrían explicar este resultado, como la densidad poblacional.
+
 ```{r, echo=FALSE}
-preg_data %>% 
-  select(Country, region, perc_rural_w_nwap, perc_rural_w_wap) %>% 
+ab_data %>% 
+  select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
   group_by(region) %>% 
-  summarise(perc_rural_reg = mean(perc_rural_w_wap)) %>% 
-  ggplot( aes(x = region, y= perc_rural_reg,fill=region)) + 
+  summarise(perc_urban_reg = mean(avg_perc_preg_eia)) %>% 
+  ggplot( aes(x = region, y= perc_urban_reg, fill=region)) + 
   geom_bar(stat='identity') +
-  labs(title="Porcentaje de embarazos deseados por región en áreas rurales", 
+  labs(title="Gráfico 1 - Tasa de embarazos que terminan en aborto por región", 
        x = "Región", y ="Porcentaje de embarazos") +
-  theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "none", 
+        plot.title=element_text(hjust=0.5))
 ```
 
+Por su parte, al profundizar en la data de embarazos que terminan en aborto, se puede observar que los embarazos no deseados que terminan en aborto suponen una proporción significativa para los continentes. Destaca la región asiática con más de 60% de los embarazos no deseados que terminan en aborto.
+
+Resulta interesante ver que, a diferencia de la gráfica 1, en el caso de la región americana los embarazos no deseados que terminan en aborto no están al mismo nivel que la región asiática.
+
+```{r, echo=FALSE}
+ab_data %>% 
+  select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
+  group_by(region) %>% 
+  summarise(perc_urban_reg = mean(avg_perc_uw_preg_eia)) %>% 
+  ggplot( aes(x = region, y= perc_urban_reg, fill=region)) + 
+  geom_bar(stat='identity') +
+  labs(title="Gráfico 2 - Tasa de embarazos no deseados que terminan en aborto por región", 
+       x = "Región", y ="Porcentaje de embarazos") +
+  theme(legend.position = "none", 
+        plot.title=element_text(hjust=0.5))
+```
+
+Al indagar sobre el caso de las mujeres que desean evitar el embarazo, resulta relevantehacer la distinción de acuerdo al área de procedencia de la mujer: rural o urbana.
+
+En este caso, se puede observar que la mediana en las Americas es similar tanto para áreas urbanas como rurales, lo que difiere al caso europeo. En el caso de Asia existe un valor atípico, marcado por el punto fuera del diagrama de caja. Resulta interesante ver como en Oceanía existe menor variación de los datos, mientras que en el resto de las regiones continentales hay mayor nivel de variación intercuartílica entre áreas.
+
 ```{r, echo=FALSE}
 
-ss <- preg_data %>% 
-  select(Country, region, perc_urban_w_nwap, perc_rural_w_nwap)  %>% 
-  pivot_longer(cols = c("perc_urban_w_nwap", "perc_rural_w_nwap"),
+
+longer_urban_rural_nwap <- preg_data %>% 
+  select(Country, region, perc_urban_w_wap, perc_rural_w_wap)  %>% 
+  pivot_longer(cols = c("perc_urban_w_wap", "perc_rural_w_wap"),
                names_to = "series" ,
                values_to = "value")  
 
 
-p <- ss %>% 
+urban_rural_nwap <- longer_urban_rural_nwap %>% 
   mutate(region = reorder(region, value, FUN = median)) %>%
   ggplot() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  xlab("") +
-  scale_y_continuous(trans = "log2")  
+  theme(axis.text.x = element_text(hjust = 0.5), 
+        plot.title=element_text(hjust=0.5)) +
+  xlab("") 
 
+  urban_rural_nwap + geom_boxplot(aes(region, value, fill = factor(series))) + 
+    labs(title = "Tasa de mujeres que desean evitar el embarazo: Áreas rurales vs Urbanas", 
+         y = "Porcentaje de mujeres") + 
+    guides(fill=guide_legend(title="Área")) + 
+    scale_fill_discrete(labels=c('Rural', 'Urbana')) 
 
+```
 
-# Evita el facet_grid y colorea por ano
-p + geom_boxplot(aes(region, value, fill = factor(series)))
+Adicionalmente, se puede realizar una distinción de la tasa de mujeres que desean evitar el embarazo de acuerdo al percentil de ingresos de la mujer: ingresos bajos o altos.
+
+Tanto en la región americana como en la asiática resalta la existencia de valores atípicos que se encuentran fuera del diagrama de caja. En Europa, para la tasa de mujeres que desean evitar el embarazo, el tercer cuartil de ingresos bajos se encuentra casi al mismo nivel del primer cuartil para ingresos altos. Asimismo, se evidencia lo opuesto en Oceanía: para la tasa de mujeres que desean evitar el embarazo, el primer cuartil de ingresos bajos se encuentra casi al mismo nivel del cuarto cuartil para ingresos altos.
+
+```{r, echo=FALSE}
+   longer_rich_poor_nwap <- preg_data %>% 
+    select(Country, region, perc_poor_w_wap, perc_rich_w_wap)  %>% 
+    pivot_longer(cols = c("perc_poor_w_wap", "perc_rich_w_wap"),
+                 names_to = "series" ,
+                 values_to = "value")  
+  
+  
+  rich_poor_nwap <- longer_rich_poor_nwap %>% 
+    mutate(region = reorder(region, value, FUN = median)) %>%
+    ggplot() +
+    theme(axis.text.x = element_text(hjust = 0.5), 
+          plot.title=element_text(hjust=0.5)) +
+    xlab("") 
+  
+  rich_poor_nwap + geom_boxplot(aes(region, value, fill = factor(series))) + 
+    labs(title = "Tasa de mujeres que desean evitar el embarazo: Percentil ingresos altos vs bajos", 
+         y = "Porcentaje de mujeres") + 
+    guides(fill=guide_legend(title="Percentil de ingresos")) + 
+    scale_fill_discrete(labels=c('Bajo', 'Alto')) 
 ```
 
 ## Conclusiones
-Tanto el embarazo no planificado como el aborto son experiencias compartidas por las mujeres a nivel mundial, sin importar el área de donde provengan o habiten o la región. Esto es algo que ocurre y seguirá ocurriendo y es importante que se tenga en cuenta para la toma de decisiones a nivel de derechos reproductivos. Se necesitan medidas que aseguren las vidas de las mujeres que se someten a estos procedimientos. 
 
-https://www.guttmacher.org/es/fact-sheet/aborto-inducido-nivel-mundial
+Tanto el embarazo no planificado como el aborto son experiencias compartidas por las mujeres a nivel mundial, sin importar el área de donde provengan, su percentil de ingresos o su región. El análisis y la visualización de los datos permite ilustrar estos números en gráficos y hacer del proceso de toma de decisiones algo inclusivo y equitativo. Para hacer esto sería ideal no sólo completar las observaciones incompletas, sino también estudiar los comportamientos a nivel mundial durante los últimos años.
 
-Parte I
-Parte II 
+Sin embargo, con las observaciones y variables analizadas podemos concluir que independientemente de factores socioeconómicos o geográficos los abortos y los embarazos no deseados ocurren. Es de suma importancia que se tengan en cuenta estos factores para sentar las bases y planificar programas y políticas para mejorar la atencion de la salud sexual y reproductiva.
 
-En el marco de la derogación??? de Roe v. Wade en los Estados Unidos, decidimos tomar este tema para estudiar el __ de las mujeres que se __ a abortos en el mundo. 
-Es algo que sucede y seguirá sucediendo. 
+## Enlaces de interés
 
-La primera parte del informe debe ser una descripción básica de los datos que utilizan. Fuente, conceptos pertinentes, definiciones de indicadores, cantidad de observaciones, cantidad de variables, valores faltantes.
+-   [Aborto inducido a nivel mundial](<https://www.guttmacher.org/es/fact-sheet/aborto-inducido-nivel-mundial>)
 
-*Si deben realizar algún cálculo adicional a los datos que importaron, deben describir el cálculo realizado y hacer referencia a la fuente en la que se basaron.
+-   [Repositorio Github del Proyecto](<https://github.com/analetty/dsci-prueba2>)
 
-Nota: el objetivo de esta parte es contextualizar al “lector” por lo que no deben extenderse mucho, pero sí es importante asegurarse de que se explica todo lo necesario para entender el resto del informe.
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+-   [Importancia de desarrollar políticas mejor enfocadas](<https://www.guttmacher.org/es/article/2022/05/nueva-evidencia-sobre-embarazo-no-planeado-y-aborto-en-150-paises-muestra-la>)

@@ -81,10 +81,12 @@ dirty_wntdprg[dirty_wntdprg == 'u'] <- NA
 
 # Subset de países con valores NA 
 na_ab_rate <- dirty_abrate[!complete.cases(dirty_abrate),] 
-na_ab_rate <- na_ab_rate[-(26:27),]
+na_ab_rate <- na_ab_rate[-(26:28),]
+
 
 na_wntd_prg <- dirty_wntdprg[!complete.cases(dirty_wntdprg),]
-na_wntd_prg <- na_wntd_prg[-(44:45),]
+na_wntd_prg <- na_wntd_prg[-(44:46),]
+
 
 # Transformamos los valores a numericos
 dirty_wntdprg <- dirty_wntdprg %>% 
@@ -174,7 +176,8 @@ ab_data %>%
   geom_bar(stat='identity') +
   labs(title="Tasa de embarazos que terminan en aborto por región", 
        x = "Región", y ="Porcentaje de embarazos") +
-  theme(legend.position = "none")
+  theme(legend.position = "none", 
+        plot.title=element_text(hjust=0.5))
 
 # Gráfico de tasa de embarazos no deseados que terminan en aborto por región
 
@@ -186,13 +189,14 @@ ab_data %>%
   geom_bar(stat='identity') +
   labs(title="Tasa embarazos no deseados que terminan en aborto por región", 
        x = "Región", y ="Porcentaje de embarazos") +
-  theme(legend.position = "none")
+  theme(legend.position = "none", 
+        plot.title=element_text(hjust=0.5))
 
 # Comparación entre embarazos no deseados áreas urbanas vs rurales por región
 
 longer_urban_rural_nwap <- preg_data %>% 
-  select(Country, region, perc_urban_w_nwap, perc_rural_w_nwap)  %>% 
-  pivot_longer(cols = c("perc_urban_w_nwap", "perc_rural_w_nwap"),
+  select(Country, region, perc_urban_w_wap, perc_rural_w_wap)  %>% 
+  pivot_longer(cols = c("perc_urban_w_wap", "perc_rural_w_wap"),
                names_to = "series" ,
                values_to = "value")  
 
@@ -200,10 +204,35 @@ longer_urban_rural_nwap <- preg_data %>%
 urban_rural_nwap <- longer_urban_rural_nwap %>% 
   mutate(region = reorder(region, value, FUN = median)) %>%
   ggplot() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  xlab("") +
-  scale_y_continuous(trans = "log2")  
+  theme(axis.text.x = element_text(hjust = 0.5), 
+        plot.title=element_text(hjust=0.5)) +
+  xlab("") 
 
-urban_rural_nwap + geom_boxplot(aes(region, value, fill = factor(series)))
+  urban_rural_nwap + geom_boxplot(aes(region, value, fill = factor(series))) + 
+    labs(title = "Tasa de mujeres que desean evitar el embarazo: Áreas rurales vs Urbanas", 
+         y = "Porcentaje de mujeres") + 
+    guides(fill=guide_legend(title="Área")) + 
+    scale_fill_discrete(labels=c('Rural', 'Urbana')) 
 
-
+# Comparación entre embarazos no deseados percentil rico vs pobre
+  
+  longer_rich_poor_nwap <- preg_data %>% 
+    select(Country, region, perc_poor_w_wap, perc_rich_w_wap)  %>% 
+    pivot_longer(cols = c("perc_poor_w_wap", "perc_rich_w_wap"),
+                 names_to = "series" ,
+                 values_to = "value")  
+  
+  
+  rich_poor_nwap <- longer_rich_poor_nwap %>% 
+    mutate(region = reorder(region, value, FUN = median)) %>%
+    ggplot() +
+    theme(axis.text.x = element_text(hjust = 0.5), 
+          plot.title=element_text(hjust=0.5)) +
+    xlab("") 
+  
+  rich_poor_nwap + geom_boxplot(aes(region, value, fill = factor(series))) + 
+    labs(title = "Tasa de mujeres que desean evitar el embarazo: Percentil ingresos altos vs bajos", 
+         y = "Porcentaje de mujeres") + 
+    guides(fill=guide_legend(title="Percentil de ingresos")) + 
+    scale_fill_discrete(labels=c('Bajo', 'Alto')) 
+  
