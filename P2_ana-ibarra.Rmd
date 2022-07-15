@@ -5,7 +5,9 @@ author:
   - Ana Gabriela Ibarra
   - Ana Leticia Ibarra
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document:
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
@@ -35,16 +37,9 @@ Realizar un análisis exploratorio de datos mediante el procesamiento y visualiz
 
 En esta ocasión estaremos usando 3 fuentes de datos diferentes que se relacionan entre sí, a continuación las listaremos y las describiremos brevemente:
 
--   [Tasa de abortos](https://data.guttmacher.org/countries/table?country=AF+AL+DZ+AO+AR+AM+AU+AZ+BD+BB+BY+BE+BZ+BJ+BT+BO+BA+BW+BR+BG+BF+BI+CV+KH+CM+CA+CF+TD+CL+CN+CO+KM+CG+CR+CI+HR+CU+CZ+KP+CD+DK+DJ+DO+EC+EG+SV+GQ+ER+EE+SZ+ET+FJ+FI+FR+GF+GA+GM+GE+DE+GH+GR+GD+GP+GT+GN+GW+GY+HT+HN+HK+HU+IS+IN+ID+IR+IQ+IT+JM+JP+JO+KZ+KE+KI+KG+LA+LV+LB+LS+LR+LY+LT+MG+MW+MY+MV+ML+MQ+MR+MU+YT+MX+FM+MN+ME+MA+MZ+MM+NA+NP+NL+NZ+NI+NE+NG+MK+NO+PK+PA+PG+PY+PE+PH+PL+PT+PR+MD+KR+RE+RO+RU+RW+LC+VC+WS+ST+SN+RS+SL+SG+SK+SI+SB+SO+ZA+SS+ES+LK+PS+SD+SR+SE+CH+SY+TJ+TH+TL+TG+TO+TT+TN+TR+TM+UG+UA+GB+TZ+US+UY+UZ+VU+VE+VN+YE+ZM+ZW&dataset=data&topics=407+408+405+406)
-    -   La base de datos tiene por país para el período 2015-2019 el porcentaje promedio de embarazos que terminan en aborto, tanto los deseados como no deseados; promedio anual de abortos en mujeres entre 15-49 años; promedio anual de aborto por cada 1000 mujeres entre 15-49 años.
-    -   Número de observaciones: 175
-    -   Cantidad de variables: 5
-    -   Valores faltantes: 25
-
 ```{r}
-dirty_abrate <- read_excel("datasets/ds-abrate.xlsx")
 
-summary(dirty_abrate)
+dirty_abrate <- read_excel("datasets/ds-abrate.xlsx")
 
 dirty_abrate[dirty_abrate == 'u'] <- NA
 
@@ -52,39 +47,60 @@ dirty_abrate[dirty_abrate == 'u'] <- NA
 na_ab_rate <- dirty_abrate[!complete.cases(dirty_abrate),] 
 na_ab_rate <- na_ab_rate[-(26:28),]
 
-na_ab_rate$Country
+```
+
+-   [Tasa de abortos](https://data.guttmacher.org/countries/table?country=AF+AL+DZ+AO+AR+AM+AU+AZ+BD+BB+BY+BE+BZ+BJ+BT+BO+BA+BW+BR+BG+BF+BI+CV+KH+CM+CA+CF+TD+CL+CN+CO+KM+CG+CR+CI+HR+CU+CZ+KP+CD+DK+DJ+DO+EC+EG+SV+GQ+ER+EE+SZ+ET+FJ+FI+FR+GF+GA+GM+GE+DE+GH+GR+GD+GP+GT+GN+GW+GY+HT+HN+HK+HU+IS+IN+ID+IR+IQ+IT+JM+JP+JO+KZ+KE+KI+KG+LA+LV+LB+LS+LR+LY+LT+MG+MW+MY+MV+ML+MQ+MR+MU+YT+MX+FM+MN+ME+MA+MZ+MM+NA+NP+NL+NZ+NI+NE+NG+MK+NO+PK+PA+PG+PY+PE+PH+PL+PT+PR+MD+KR+RE+RO+RU+RW+LC+VC+WS+ST+SN+RS+SL+SG+SK+SI+SB+SO+ZA+SS+ES+LK+PS+SD+SR+SE+CH+SY+TJ+TH+TL+TG+TO+TT+TN+TR+TM+UG+UA+GB+TZ+US+UY+UZ+VU+VE+VN+YE+ZM+ZW&dataset=data&topics=407+408+405+406)
+    - La base de datos tiene por país para el período 2015-2019 el porcentaje promedio de embarazos que terminan en aborto, tanto los deseados como no deseados; promedio anual de abortos en mujeres entre 15-49 años; promedio anual de aborto por cada 1000 mujeres entre 15-49 años.
+    -   Número de observaciones: `r length(dirty_abrate$Country)`
+    -   Cantidad de variables: `r length(dirty_abrate)`
+    -   Valores faltantes: `r length(na_ab_rate$Country)`
+
+```{r}
+
+summary(dirty_abrate)
 
 ```
 
--   [Embarazos deseados vs. no deseados](https://data.guttmacher.org/countries/table?country=AF+AL+DZ+AO+AR+AM+AU+AZ+BD+BB+BY+BE+BZ+BJ+BT+BO+BA+BW+BR+BG+BF+BI+CV+KH+CM+CA+CF+TD+CL+CN+CO+KM+CG+CR+CI+HR+CU+CZ+KP+CD+DK+DJ+DO+EC+EG+SV+GQ+ER+EE+SZ+ET+FJ+FI+FR+GF+GA+GM+GE+DE+GH+GR+GD+GP+GT+GN+GW+GY+HT+HN+HK+HU+IS+IN+ID+IR+IQ+IT+JM+JP+JO+KZ+KE+KI+KG+LA+LV+LB+LS+LR+LY+LT+MG+MW+MY+MV+ML+MQ+MR+MU+YT+MX+FM+MN+ME+MA+MZ+MM+NA+NP+NL+NZ+NI+NE+NG+MK+NO+PK+PA+PG+PY+PE+PH+PL+PT+PR+MD+KR+RE+RO+RU+RW+LC+VC+WS+ST+SN+RS+SL+SG+SK+SI+SB+SO+ZA+SS+ES+LK+PS+SD+SR+SE+CH+SY+TJ+TH+TL+TG+TO+TT+TN+TR+TM+UG+UA+GB+TZ+US+UY+UZ+VU+VE+VN+YE+ZM+ZW&dataset=data&topics=300+302)
-    -   La base de datos tiene por país para 2019 diversas variables para la tasa de mujeres que desean o no evitar el embarazo de acuerdo al área, edad, percentil de ingresos y estado civil.
-    -   Cantidad de observaciones: 175
-    -   Cantidad de variables: 19
-    -   Valores faltantes: 43
-
 ```{r}
+
 dirty_wntdprg <- read_excel("datasets/ds-wntdprg.xlsx")
 
-summary(dirty_wntdprg)
 dirty_wntdprg[dirty_wntdprg == 'u'] <- NA
 
 # Subset de países con valores NA 
 na_wntd_prg <- dirty_wntdprg[!complete.cases(dirty_wntdprg),]
 na_wntd_prg <- na_wntd_prg[-(44:46),]
 
-na_wntd_prg$Country
+```
+
+-   [Embarazos deseados vs. no deseados](https://data.guttmacher.org/countries/table?country=AF+AL+DZ+AO+AR+AM+AU+AZ+BD+BB+BY+BE+BZ+BJ+BT+BO+BA+BW+BR+BG+BF+BI+CV+KH+CM+CA+CF+TD+CL+CN+CO+KM+CG+CR+CI+HR+CU+CZ+KP+CD+DK+DJ+DO+EC+EG+SV+GQ+ER+EE+SZ+ET+FJ+FI+FR+GF+GA+GM+GE+DE+GH+GR+GD+GP+GT+GN+GW+GY+HT+HN+HK+HU+IS+IN+ID+IR+IQ+IT+JM+JP+JO+KZ+KE+KI+KG+LA+LV+LB+LS+LR+LY+LT+MG+MW+MY+MV+ML+MQ+MR+MU+YT+MX+FM+MN+ME+MA+MZ+MM+NA+NP+NL+NZ+NI+NE+NG+MK+NO+PK+PA+PG+PY+PE+PH+PL+PT+PR+MD+KR+RE+RO+RU+RW+LC+VC+WS+ST+SN+RS+SL+SG+SK+SI+SB+SO+ZA+SS+ES+LK+PS+SD+SR+SE+CH+SY+TJ+TH+TL+TG+TO+TT+TN+TR+TM+UG+UA+GB+TZ+US+UY+UZ+VU+VE+VN+YE+ZM+ZW&dataset=data&topics=300+302)
+    -   La base de datos tiene por país para 2019 diversas variables para la tasa de mujeres que desean o no evitar el embarazo de acuerdo al área, edad, percentil de ingresos y estado civil.
+    -   Cantidad de observaciones: `r length(dirty_wntdprg$Country)`
+    -   Cantidad de variables: `r length(dirty_wntdprg)`
+    -   Valores faltantes: `r length(na_wntd_prg$Country)`. Sabemos que es una lista bastante larga, pero hay países cuyos datos no son accesibles. 
+
+```{r}
+
+summary(dirty_wntdprg)
+
+```
+
+```{r}
+
+regions <- read.csv("datasets/all.csv")
+
 ```
 
 -   [Regiones](https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes/blob/master/all/all.csv)
     -   La base de datos contiene información de los países de acuerdo a sus regiones, subregiones, código ISO 3166, código de país y de región.
-    -   Cantidad de observaciones: 249
-    -   Cantidad de variables: 11
+    -   Cantidad de observaciones: `r length(regions$name)`
+    -   Cantidad de variables: `r length(regions)`
     -   Valores faltantes: 0
 
 ```{r}
-regions <- read.csv("datasets/all.csv")
 
 summary(regions)
+
 ```
 
 ## Limpieza de datos
@@ -95,10 +111,34 @@ Adicionalmente, seleccionamos algunas de las variables de las bases de datos, ya
 
 ## Base de datos a utilizar
 
+Finalmente, luego de la limpieza de datos obtuvimos los siguientes datasets:
+
 ```{r}
+
 ab_data <- read.csv("datasets/ab_data.csv")
 preg_data <- read.csv("datasets/preg_data.csv")
-regions <- read.csv("datasets/regions.csv")
+
+```
+
+1. Base de datos limpia de tasa de abortos:
+    -   La base de datos tiene por país y región para el período 2015-2019 el porcentaje promedio de embarazos que terminan en aborto, tanto los deseados como no deseados; promedio anual de abortos en mujeres entre 15-49 años; promedio anual de aborto por cada 1000 mujeres entre 15-49 años.
+    -   Número de observaciones: `r length(ab_data$Country)`
+    -   Cantidad de variables: `r length(ab_data)`
+
+```{r}
+
+summary(ab_data)
+
+```
+
+2. Base de datos limpia de de embarazos por áreas y percentil de ingresos:
+    -   La base de datos tiene por país y región para 2019 diversas variables para la tasa de mujeres que desean o no evitar el embarazo de acuerdo al área, edad, percentil de ingresos y estado civil.
+    -   Cantidad de observaciones: `r length(preg_data$Country)`
+    -   Cantidad de variables: `r length(preg_data)`
+
+```{r}
+
+summary(preg_data)
 
 ```
 
@@ -113,6 +153,7 @@ ab_data %>%
   select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
   group_by(region) %>% 
   summarise(perc_urban_reg = mean(avg_perc_preg_eia)) %>% 
+  ungroup() %>%
   ggplot( aes(x = region, y= perc_urban_reg, fill=region)) + 
   geom_bar(stat='identity') +
   labs(title="Gráfico 1 - Tasa de embarazos que terminan en aborto por región", 
@@ -130,6 +171,7 @@ ab_data %>%
   select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
   group_by(region) %>% 
   summarise(perc_urban_reg = mean(avg_perc_uw_preg_eia)) %>% 
+  ungroup() %>%
   ggplot( aes(x = region, y= perc_urban_reg, fill=region)) + 
   geom_bar(stat='identity') +
   labs(title="Gráfico 2 - Tasa de embarazos no deseados que terminan en aborto por región", 
@@ -160,7 +202,7 @@ urban_rural_nwap <- longer_urban_rural_nwap %>%
   xlab("") 
 
   urban_rural_nwap + geom_boxplot(aes(region, value, fill = factor(series))) + 
-    labs(title = "Tasa de mujeres que desean evitar el embarazo: Áreas rurales vs Urbanas", 
+    labs(title = "Gráfico 3 -Tasa de mujeres que desean evitar el embarazo: Áreas rurales vs Urbanas", 
          y = "Porcentaje de mujeres") + 
     guides(fill=guide_legend(title="Área")) + 
     scale_fill_discrete(labels=c('Rural', 'Urbana')) 
@@ -187,7 +229,7 @@ Tanto en la región americana como en la asiática resalta la existencia de valo
     xlab("") 
   
   rich_poor_nwap + geom_boxplot(aes(region, value, fill = factor(series))) + 
-    labs(title = "Tasa de mujeres que desean evitar el embarazo: Percentil ingresos altos vs bajos", 
+    labs(title = "Gráfico 4 - Tasa de mujeres que desean evitar el embarazo: Percentil ingresos altos vs bajos", 
          y = "Porcentaje de mujeres") + 
     guides(fill=guide_legend(title="Percentil de ingresos")) + 
     scale_fill_discrete(labels=c('Bajo', 'Alto')) 

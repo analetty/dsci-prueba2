@@ -120,51 +120,55 @@ write.csv(regions,"regions.csv", row.names = FALSE)
 
 # Parte 3: Resumen y Graficos ------------------------------------------------------
 
-# Gráfica de barra % embarazos deseados por región en áreas rurales
+# Gráfica de barra % mujeres que desean evitar el embarazo por región en áreas rurales
 preg_data %>% 
   select(Country, region, perc_rural_w_nwap, perc_rural_w_wap) %>% 
   group_by(region) %>% 
   summarise(perc_rural_reg = mean(perc_rural_w_wap)) %>% 
+  ungroup() %>% 
   ggplot( aes(x = region, y= perc_rural_reg,fill=region)) + 
   geom_bar(stat='identity') +
-  labs(title="Porcentaje de embarazos deseados por región en áreas rurales", 
-       x = "Región", y ="Porcentaje de embarazos") +
+  labs(title="Porcentaje de mujeres que desean evitar el embarazo por región en áreas rurales", 
+       x = "Región", y ="Porcentaje de mujeres") +
   theme_minimal() +
   theme(legend.position = "none")
 
-# Gráfica de barra % embarazos no deseados por región en áreas rurales
+# Gráfica de barra % mujeres que no desean evitar el embarazo por región en áreas rurales
 
 preg_data %>% 
   select(Country, region, perc_rural_w_nwap, perc_rural_w_wap) %>% 
   group_by(region) %>% 
   summarise(perc_rural_reg = mean(perc_rural_w_nwap)) %>% 
+  ungroup() %>% 
   ggplot( aes(x = region, y= perc_rural_reg,fill=region)) + 
   geom_bar(stat='identity') +
-  labs(title="Porcentaje de embarazos no deseados por región en áreas rurales", 
-       x = "Región", y ="Porcentaje de embarazos no deseados") +
+  labs(title="Porcentaje de mujeres que no desean evitar el embarazo por región en áreas rurales", 
+       x = "Región", y ="Porcentaje de mujeres") +
   theme(legend.position = "none")
 
-# Gráfica de barra % embarazos deseados por región en áreas urbanas
+# Gráfica de barra % mujeres que desean evitar el embarazo por región en áreas urbanas
 preg_data %>% 
   select(Country, region, perc_urban_w_nwap, perc_urban_w_wap) %>% 
   group_by(region) %>% 
   summarise(perc_urban_reg = mean(perc_urban_w_wap)) %>% 
+  ungroup() %>% 
   ggplot( aes(x = region, y= perc_urban_reg,fill=region)) + 
   geom_bar(stat='identity') +
-  labs(title="Porcentaje de embarazos deseados por región en áreas urbanas", 
-       x = "Región", y ="Porcentaje de embarazos") +
+  labs(title="Porcentaje de mujeres que desean evitar el embarazo por región en áreas urbanas", 
+       x = "Región", y ="Porcentaje de mujeres") +
   theme(legend.position = "none")
 
-# Gráfica de barra % embarazos no deseados por región en áreas urbanas
+# Gráfica de barra % mujeres que no desean evitar el embarazos por región en áreas urbanas
 
 preg_data %>% 
   select(Country, region, perc_urban_w_nwap, perc_urban_w_wap) %>% 
   group_by(region) %>% 
   summarise(perc_urban_reg = mean(perc_urban_w_nwap)) %>% 
+  ungroup() %>% 
   ggplot( aes(x = region, y= perc_urban_reg,fill=region)) + 
   geom_bar(stat='identity') +
-  labs(title="Porcentaje de embarazos no deseados por región en áreas urbanas", 
-       x = "Región", y ="Porcentaje de embarazos") +
+  labs(title="Porcentaje de mujeres que no desean evitar el embarazo por región en áreas urbanas", 
+       x = "Región", y ="Porcentaje de mujeres") +
   theme(legend.position = "none")
 
 # Gráfico de tasa de embarazos que terminan en aborto por región
@@ -172,6 +176,7 @@ ab_data %>%
   select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
   group_by(region) %>% 
   summarise(perc_urban_reg = mean(avg_perc_preg_eia)) %>% 
+  ungroup() %>% 
   ggplot( aes(x = region, y= perc_urban_reg, fill=region)) + 
   geom_bar(stat='identity') +
   labs(title="Tasa de embarazos que terminan en aborto por región", 
@@ -185,6 +190,7 @@ ab_data %>%
   select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
   group_by(region) %>% 
   summarise(perc_urban_reg = mean(avg_perc_uw_preg_eia)) %>% 
+  ungroup() %>% 
   ggplot( aes(x = region, y= perc_urban_reg, fill=region)) + 
   geom_bar(stat='identity') +
   labs(title="Tasa embarazos no deseados que terminan en aborto por región", 
@@ -192,7 +198,7 @@ ab_data %>%
   theme(legend.position = "none", 
         plot.title=element_text(hjust=0.5))
 
-# Comparación entre embarazos no deseados áreas urbanas vs rurales por región
+# Comparación entre mujeres que desean evitar el embarazo áreas urbanas vs rurales por región
 
 longer_urban_rural_nwap <- preg_data %>% 
   select(Country, region, perc_urban_w_wap, perc_rural_w_wap)  %>% 
@@ -214,7 +220,7 @@ urban_rural_nwap <- longer_urban_rural_nwap %>%
     guides(fill=guide_legend(title="Área")) + 
     scale_fill_discrete(labels=c('Rural', 'Urbana')) 
 
-# Comparación entre embarazos no deseados percentil rico vs pobre
+# Comparación entre mujeres que desean evitar el embarazo percentil alto vs bajo
   
   longer_rich_poor_nwap <- preg_data %>% 
     select(Country, region, perc_poor_w_wap, perc_rich_w_wap)  %>% 
