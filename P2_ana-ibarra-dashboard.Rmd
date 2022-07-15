@@ -18,7 +18,7 @@ library(ggthemes)
 Column {data-width=550}
 -----------------------------------------------------------------------
 
-### Chart A
+### Gráfico 1
 
 ```{r}
 
@@ -44,7 +44,7 @@ ab_data %>%
 Column {data-width=450}
 -----------------------------------------------------------------------
 
-### Chart B
+### Gráfico 2
 
 ```{r}
 
@@ -70,7 +70,7 @@ urban_rural_nwap <- longer_urban_rural_nwap %>%
 
 ```
 
-### Chart C
+### Gráfico 3
 
 ```{r}
 
