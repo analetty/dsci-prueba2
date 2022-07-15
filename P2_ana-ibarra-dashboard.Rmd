@@ -1,0 +1,90 @@
+---
+title: "Dashboard - Prueba 2"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+
+library(tidyverse)
+library(readxl)
+library(ggplot2)
+library(ggthemes)
+
+```
+
+Column {data-width=550}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+
+ab_data <- read.csv("datasets/ab_data.csv")
+preg_data <- read.csv("datasets/preg_data.csv")
+
+ab_data %>% 
+  select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
+  group_by(region) %>% 
+  summarise(perc_urban_reg = mean(avg_perc_preg_eia)) %>% 
+  ungroup() %>%
+  ggplot( aes(x = region, y= perc_urban_reg, fill=region)) + 
+  geom_bar(stat='identity') +
+  labs(title="Tasa de embarazos que terminan en aborto por región", 
+       x = "Región", y ="Porcentaje de embarazos") +
+  theme(legend.position = "none", 
+        plot.title=element_text(hjust=0.5))
+
+
+```
+
+Column {data-width=450}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+longer_urban_rural_nwap <- preg_data %>% 
+  select(Country, region, perc_urban_w_wap, perc_rural_w_wap)  %>% 
+  pivot_longer(cols = c("perc_urban_w_wap", "perc_rural_w_wap"),
+               names_to = "series" ,
+               values_to = "value")  
+
+
+urban_rural_nwap <- longer_urban_rural_nwap %>% 
+  mutate(region = reorder(region, value, FUN = median)) %>%
+  ggplot() +
+  theme(axis.text.x = element_text(hjust = 0.5), 
+        plot.title=element_text(hjust=0.5)) +
+  xlab("") 
+
+  urban_rural_nwap + geom_boxplot(aes(region, value, fill = factor(series))) + 
+    labs(title = "Tasa de mujeres que desean evitar el embarazo: Áreas rurales vs Urbanas", 
+         y = "Porcentaje de mujeres") + 
+    guides(fill=guide_legend(title="Área")) + 
+    scale_fill_discrete(labels=c('Rural', 'Urbana')) 
+
+```
+
+### Chart C
+
+```{r}
+
+ab_data %>% 
+  select(Country, region, avg_perc_preg_eia, avg_perc_uw_preg_eia) %>% 
+  group_by(region) %>% 
+  summarise(perc_urban_reg = mean(avg_perc_uw_preg_eia)) %>% 
+  ungroup() %>% 
+  ggplot( aes(x = region, y= perc_urban_reg, fill=region)) + 
+  geom_bar(stat='identity') +
+  labs(title="Tasa embarazos no deseados que terminan en aborto por región", 
+       x = "Región", y ="Porcentaje de embarazos") +
+  theme(legend.position = "none", 
+        plot.title=element_text(hjust=0.5))
+
+```
+
